@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Airports Across The World</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        #map, #bubble, #meal, #metro {
+            overflow-x: auto;  
+        }
+        body {
+            font-family: 'Georgia', serif;
+            background-color: rgb(202, 202, 202);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        h2 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        main {
+            padding: 20px;
+            max-width: 100%; 
+            margin: auto; 
+        }
+        #map, #bubble, #meal, #metro {
+            margin-bottom: 40px;
+            max-width: 100%; 
+            overflow-wrap: break-word; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Airports Across The World</h1>
+    </header>
+
+    <main>
+        <h2>Global Distribution of Airports</h2>
+        <div id="map"></div>
+        <p>This map shows the distribution of airports around the world, but it is more than just a collection of geographical locations. It reveals the core and edges of the global aviation network and the role of each country in global air traffic. For example, the United States, China and European countries have dense networks of airports, reflecting their dominance in global air traffic.<br>
+
+          China has a number of large international airports, including Beijing, Shanghai and Guangzhou, which are not only hubs for domestic flights but also important gateways to the rest of the world. Meanwhile, Australia and Canada, despite their vastness, have relatively few airports, which are concentrated in densely populated cities and regions.<br>
+          
+          In Europe, the airport network is so dense that almost every country has at least one international airport. This reflects the strong economic and cultural ties between European countries and the need for easy cross-border travel.
+          
+          </p>
+
+        <h2>Airport Altitudes Represented as Bubbles</h2>
+        <div id="bubble"></div>
+        <p>This bubble map shows the elevation of airports around the world. Each bubble represents an airport, and the size and colour of the bubbles are proportional to the altitude of the airport.<br>
+
+          Altitude is an important factor that may affect the takeoff and landing performance of an aircraft. Generally, the higher the altitude, the lower the barometric pressure, which may affect the performance of aircraft engines and take-off distance.<br>
+          
+          This map gives you a quick overview of which airports are located at high altitude and which are located at low altitude. This is very useful information for airlines planning routes and flight operations.
+          </p>
+
+        <h2>Number of Countries Each Airline Operates In</h2>
+        <div id="meal"></div>
+        <p>This bar chart shows how many countries each airline operates in. Each bar represents an airline, and the height of the bar indicates how many countries the airline operates in.<br>
+
+          This chart provides valuable information to those in the airline industry to help them understand which airlines have a wider international reach. This is useful for route planning, partnership negotiations and market analysis.
+          
+          </p>
+
+        <h2>Airports with Metro Connections by Country</h2>
+        <div id="metro"></div> 
+        <p>This bar chart shows how many airports connected to the metro system each country has. Each bar represents a country and the height of the bar indicates how many airports are connected to the metro system in that country.<br>
+
+          This chart provides valuable information for transport planners and travellers to help them understand which countries have major airports that are more accessible to public transport.</p>
+    </main>
+
+    <script type="text/javascript">
+        fetch('airport_map.json')
+          .then(response => response.json())
+          .then(spec => {
+            vegaEmbed('#map', spec);
+          })
+          .catch(err => console.error(err));
+
+        fetch('airport_altitude_bubble.json')
+          .then(response => response.json())
+          .then(spec => {
+            vegaEmbed('#bubble', spec);
+          })
+          .catch(err => console.error(err));
+
+        fetch('airlines_countries_bar.json')  
+          .then(response => response.json())
+          .then(spec => {
+            vegaEmbed('#meal', spec);
+          })
+          .catch(err => console.error(err));
+
+        fetch('airports_with_metro.json')  
+          .then(response => response.json())
+          .then(spec => {
+            vegaEmbed('#metro', spec);
+          })
+          .catch(err => console.error(err));  
+    </script>
+</body>
+</html>
