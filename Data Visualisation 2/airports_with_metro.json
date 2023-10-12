@@ -1,0 +1,66 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A bar chart showing the number of airports with metro connections in each country.",
+  "title": "Airports with Metro Connections by Country",
+  "data": {"url": "airports_data.csv"},
+  "width": 1600,
+  "params": [
+    {
+      "name": "minAirports",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "name": "Minimum Number of Airports: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "lookup": "iata",
+      "from": {
+        "data": {"url": "metro_in_airports_iata_codes.csv"},
+        "key": "IATACode"
+      },
+      "as": "metro"
+    },
+    {
+      "filter": "datum.metro !== null"
+    },
+    {
+      "aggregate": [{"op": "count", "as": "num_airports"}],
+      "groupby": ["country"]
+    },
+    {
+      "filter": "datum.num_airports >= minAirports"
+    }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "country",
+      "type": "ordinal",
+      "axis": {
+        "title": "Country",
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "num_airports",
+      "type": "quantitative",
+      "axis": {"title": "Number of Airports with Metro"}
+    },
+    "color": {
+      "field": "num_airports",
+      "type": "quantitative",
+      "scale": {"scheme": "reds"},
+      "legend": {"title": "Number of Airports with Metro"}
+    },
+    "tooltip": [
+      {"field": "country", "type": "ordinal", "title": "Country"},
+      {"field": "num_airports", "type": "quantitative", "title": "Number of Airports with Metro"}
+    ]
+  }
+}

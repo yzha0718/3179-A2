@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bubble Chart of Airport Altitudes",
+  "data": {"url": "airports_data.csv"},
+  "width": 1600,
+  "height": 600,
+  "params": [
+    {
+      "name": "Altitude_Above",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 5000,
+        "step": 100,
+        "name": "Minimum Altitude: "
+      }
+    },
+    {
+      "name": "Altitude_Below",
+      "value": 5000,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 5000,
+        "step": 100,
+        "name": "Maximum Altitude: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.alt > Altitude_Above && datum.alt < Altitude_Below"}
+  ],
+  "mark": "circle",
+  "encoding": {
+    "x": {
+      "field": "name",
+      "type": "ordinal",
+      "axis": {"title": "Airport Name", "labelAngle": -45, "labels": false}
+    },
+    "y": {
+      "field": "alt",
+      "type": "quantitative",
+      "axis": {"title": "Altitude (m)"}
+    },
+    "size": {
+      "field": "alt",
+      "type": "quantitative",
+      "legend": {"title": "Altitude (m)"}
+    },
+    "color": {
+      "field": "alt",
+      "type": "quantitative",
+      "scale": {"scheme": "blues"},
+      "legend": {"title": "Altitude (m)"}
+    },
+    "tooltip": [
+      {"field": "name", "type": "ordinal", "title": "Airport"},
+      {"field": "alt", "type": "quantitative", "title": "Altitude (m)"}
+    ]
+  },
+  "title": "Airport Altitudes Represented as Bubbles"
+}
